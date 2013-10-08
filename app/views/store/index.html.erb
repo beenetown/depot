@@ -2,8 +2,8 @@
   <p id="notice"><%= notice %></p>
 <% end %>
 
+<small><%= "You have visited this page " + pluralize(@session_counter, "time") +" without adding anything to your cart." if @session_counter > 5 %></small>
 <h1>Your Pragmatic Catalog</h1>
-
 <% cache ['store', Product.latest] do %>
   <% @products.each do |product| %>
     <% cache ['entry', product] do %>
@@ -13,6 +13,7 @@
         <%= sanitize(product.description) %>
         <div class="price_line">
           <span class="price"><%= number_to_currency(product.price) %></span>
+          <%= button_to 'Add to Cart', line_items_path(product_id: product) %>
         </div>
       </div>
     <% end %>
